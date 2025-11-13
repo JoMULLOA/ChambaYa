@@ -1,5 +1,5 @@
 # ChambaYa-
-![Logo](.logocy.png)
+![Logo](logocy.png)
 ## 🏅 Roles y Responsabilidades
 
 <table>
