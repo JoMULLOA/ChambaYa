@@ -1,5 +1,6 @@
 # ChambaYa-
 ![Logo](logocy.png)
+<img width="128" alt="BioLogo" src="logocy.png">
 ## 🏅 Roles y Responsabilidades
 
 <table>
