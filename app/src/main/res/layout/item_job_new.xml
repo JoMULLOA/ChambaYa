@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <!-- Imagen del trabajo -->
+        <ImageView
+            android:id="@+id/ivJobImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:background="#E0E0E0"
+            android:contentDescription="@string/job_image"
+            tools:src="@android:drawable/ic_menu_gallery"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Título del trabajo -->
+        <TextView
+            android:id="@+id/tvJobTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="Cuidado de niños"
+            app:layout_constraintTop_toTopOf="@id/ivJobImage"
+            app:layout_constraintStart_toEndOf="@id/ivJobImage"
+            app:layout_constraintEnd_toStartOf="@id/tvPrice" />
+
+        <!-- Precio -->
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            tools:text="$180/h"
+            app:layout_constraintTop_toTopOf="@id/tvJobTitle"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Nombre del proveedor y distancia -->
+        <TextView
+            android:id="@+id/tvProviderName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            tools:text="Paola Ramírez • 0.9 km"
+            app:layout_constraintTop_toBottomOf="@id/tvJobTitle"
+            app:layout_constraintStart_toEndOf="@id/ivJobImage"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Tipo y calificación -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/tvProviderName"
+            app:layout_constraintStart_toEndOf="@id/ivJobImage"
+            app:layout_constraintBottom_toBottomOf="@id/ivJobImage">
+
+            <TextView
+                android:id="@+id/tvJobType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="@android:color/holo_blue_light"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="Oferta" />
+
+            <TextView
+                android:id="@+id/tvRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="12sp"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="Calif. 4.8"
+                tools:visibility="visible" />
+
+            <Button
+                android:id="@+id/btnAction"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:text="@string/contact"
+                android:textSize="11sp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                style="@style/Widget.Material3.Button" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
+

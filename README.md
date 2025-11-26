@@ -1,65 +1,137 @@
-# ChambaYa-
-<img width="256" alt="BioLogo" src="logocy.png">
+# ChambaYa - Aplicación de Servicios con Mapa 🗺️
 
-## 📋 Descripción del Problema a solucionar
+Aplicación Android que permite publicar, buscar y visualizar servicios en un mapa interactivo.
 
-El problema a solucionar es la fragmentación de servicios básicos en Chile, donde hay que buscar por canales o grupos dispersos. Esto dificulta comparar precios, disponibilidad y reputación de los prestadores. A su vez, los oferentes no cuentan con un espacio centralizado para publicar sus servicios y llegar a más clientes de forma confiable y ordenada.
+## 🎯 Características
 
-## 📋 Descripción del Proyecto
+- ✅ Mapa interactivo con Google Maps
+- ✅ Visualización de ofertas y demandas de servicios
+- ✅ Filtros por tipo de trabajo
+- ✅ Lista horizontal con trabajos cercanos
+- ✅ Ubicación del usuario en tiempo real
+- ✅ Marcadores personalizados (azul=oferta, verde=demanda)
+- ✅ Arquitectura MVVM con ViewModel y LiveData
 
-Se propone una plataforma digital para la gestión de servicios básicos y comunes, basada en georreferenciación, que vincula a oferentes y solicitantes de manera eficiente y transparente. Cada publicación describe con precisión el servicio ofrecido o requerido, incluyendo condiciones, alcance y modalidad de tarifa (por hora o por trabajo realizado). Los usuarios dispondrán de un perfil verificable con historial de trabajos, comentarios, reputación cuantificada en una escala de 1 a 10 y ofertas vigentes, lo que favorecerá la confianza y la trazabilidad de las interacciones. El propósito central es optimizar la oferta y la demanda de servicios cotidianos en el ámbito local, garantizando claridad, comparabilidad y calidad en la contratación.
+## 📱 Tecnologías
 
-## 📋 Público objetivo
+- **Lenguaje**: Kotlin
+- **UI**: Material Design 3, View Binding
+- **Arquitectura**: MVVM (Model-View-ViewModel)
+- **Mapa**: Google Maps SDK for Android
+- **Ubicación**: Google Play Services Location
+- **Componentes**: RecyclerView, LiveData, ViewModel
 
-El público objetivo está compuesto por personas que requieren de servicios básicos y reparaciones domésticas, además de trabajadores independientes y microemprendedores que los ofrecen. Incluye tanto usuarios que buscan soluciones rápidas y confiables a nivel local como técnicos y oficios que desean aumentar su visibilidad, formalizar su trabajo y acceder a más oportunidades en su zona geográfica.
+## 🚀 Configuración Rápida
 
+### 1. Obtener API Key de Google Maps
 
-## 📋 Justificación del proyecto
+1. Ve a [Google Cloud Console](https://console.cloud.google.com/)
+2. Crea o selecciona un proyecto
+3. Habilita "Maps SDK for Android"
+4. Ve a "Credenciales" y crea una API Key
+5. Copia tu API Key
 
-La aplicación es necesaria porque actualmente no existe una plataforma centralizada que conecte de forma confiable a quienes buscan y ofrecen servicios básicos. Esto genera pérdida de tiempo, baja formalidad y escasa transparencia en precios y calidad. Al desarrollar esta herramienta, se facilita el acceso a servicios verificados, se mejora la visibilidad de los trabajadores y se fomenta la confianza y eficiencia en el mercado local.
+### 2. Configurar la API Key
 
+Edita el archivo `local.properties` y agrega:
+```properties
+MAPS_API_KEY=TU_API_KEY_AQUI
+```
 
-## 🏅 Roles y Responsabilidades
+### 3. Ejecutar
 
-<table>
-  <tr>
-    <th>Foto</th>
-    <th>Integrante</th>
-    <th>Rol Principal</th>
-    <th>Especialización</th>
-    <th>Contribuciones Clave</th>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="https://avatars.githubusercontent.com/JoMULLOA" width="60px;" alt="JoMULLOA"/>
-    </td>
-    <td><a href="https://github.com/JoMULLOA"><strong>José Manríquez</strong></a></td>
-    <td>Mobile Developer</td>
-    <td>Cargo</td>
-    <td>
-      Actividades
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="https://avatars.githubusercontent.com/KrozJGG" width="60px;" alt="KrozJGG"/>
-    </td>
-    <td><a href="https://github.com/KrozJGG"><strong>Christian Jamett</strong></a></td>
-    <td>Mobile Developer</td>
-    <td>Cargo</td>
-    <td>
-      Actividades
-    </td>
-  </tr>
-    <tr>
-    <td align="center">
-      <img src="https://avatars.githubusercontent.com/bastUBB" width="60px;" alt="Joaqomv"/>
-    </td>
-    <td><a href="https://github.com/Joaqomv"><strong>Bastian Rodríguez</strong></a></td>
-    <td>Mobile Developer</td>
-    <td>Cargo</td>
-    <td>
-      Actividades
-    </td>
-  </tr>
-</table>
+1. Abre el proyecto en Android Studio
+2. Sync Gradle: `File > Sync Project with Gradle Files`
+3. Ejecuta la app: `Run > Run 'app'`
+
+## 📂 Estructura del Proyecto
+
+```
+app/src/main/
+├── java/com/example/chambaya/
+│   ├── MainActivity.kt          # Actividad principal con mapa
+│   ├── model/
+│   │   └── Job.kt              # Modelo de datos
+│   └── ui/
+│       ├── JobViewModel.kt     # ViewModel
+│       └── JobsAdapter.kt      # Adapter del RecyclerView
+├── res/
+│   ├── layout/
+│   │   ├── activity_main.xml   # Layout principal
+│   │   └── item_job.xml        # Item de trabajo
+│   └── values/
+│       └── strings.xml         # Textos
+└── AndroidManifest.xml         # Configuración y permisos
+```
+
+## 🎨 Características del Mapa
+
+### Marcadores
+- **Azules**: Ofertas de servicio (alguien ofrece un servicio)
+- **Verdes**: Demandas de servicio (alguien busca un servicio)
+
+### Interacción
+- Click en marcador: Muestra información y centra el mapa
+- Click en tarjeta de lista: Centra el mapa en ese trabajo
+- Botón de ubicación: Centra en tu ubicación actual
+
+### Filtros
+- **Todos**: Muestra todos los trabajos
+- **Ofertas**: Solo ofertas de servicio
+- **Demandas**: Solo demandas de servicio
+
+## 📊 Datos de Ejemplo
+
+La app incluye 5 trabajos de ejemplo:
+1. Pintura y remodelación - $300/h (Oferta)
+2. Se busca plomero - Presupuesto (Demanda)
+3. Cuidado de niños - $180/h ⭐4.8 (Oferta)
+4. Se requiere jardinería - Presupuesto (Demanda)
+5. Electricista certificado - $250/h ⭐4.9 (Oferta)
+
+## 🔧 Solución de Problemas
+
+### El mapa no se carga
+- ✅ Verifica que tu API Key esté correctamente configurada
+- ✅ Asegúrate de que "Maps SDK for Android" esté habilitado en Google Cloud
+- ✅ Revisa los logs de Android Studio
+
+### Permisos de ubicación
+- En emulador: Configura ubicación en `...` > `Location`
+- En dispositivo: Activa servicios de ubicación en ajustes
+
+### Errores de compilación
+```bash
+# Limpiar y reconstruir
+./gradlew clean
+./gradlew build
+
+# O en Android Studio:
+Build > Clean Project
+Build > Rebuild Project
+```
+
+## 📝 Próximas Funcionalidades
+
+- [ ] Integración con backend (Firebase/API REST)
+- [ ] Sistema de autenticación
+- [ ] Chat entre usuarios
+- [ ] Publicación de nuevos trabajos
+- [ ] Pantalla de detalles de trabajo
+- [ ] Sistema de calificaciones
+- [ ] Notificaciones push
+- [ ] Búsqueda avanzada
+
+## 📖 Documentación Adicional
+
+- [MAPS_IMPLEMENTATION.md](MAPS_IMPLEMENTATION.md) - Guía detallada de implementación
+- [Documentación Google Maps](https://developers.google.com/maps/documentation/android-sdk)
+
+## 📄 Licencia
+
+Este proyecto es de código abierto para fines educativos.
+
+---
+
+Desarrollado con ❤️ usando Kotlin y Google Maps
+

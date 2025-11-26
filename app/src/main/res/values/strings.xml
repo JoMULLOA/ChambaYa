@@ -1,2 +1,15 @@
-
-
+<resources>
+    <string name="app_name">ChambaYa</string>
+    <string name="my_location">Mi ubicación</string>
+    <string name="all_jobs">Todos</string>
+    <string name="offers">Ofertas</string>
+    <string name="demands">Demandas</string>
+    <string name="nearby_jobs">Cerca de ti</string>
+    <string name="search_hint">Busca servicios o publica uno</string>
+    <string name="publish">Publicar</string>
+    <string name="view_map">Ver mapa</string>
+    <string name="job_image">Imagen del trabajo</string>
+    <string name="contact">Contactar</string>
+    <string name="menu_home">Inicio</string>
+    <string name="menu_map">Mapa</string>
+</resources>

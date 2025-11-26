@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/jobListFragment">
+
+    <fragment
+        android:id="@+id/jobListFragment"
+        android:name="com.example.chambaya.ui.JobListFragment"
+        android:label="@string/nearby_jobs"
+        tools:layout="@layout/fragment_job_list">
+        <action
+            android:id="@+id/action_jobListFragment_to_jobMapFragment"
+            app:destination="@id/jobMapFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/jobMapFragment"
+        android:name="com.example.chambaya.ui.JobMapFragment"
+        android:label="@string/view_map"
+        tools:layout="@layout/fragment_job_map" />
+</navigation>
+

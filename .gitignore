@@ -1,5 +1,6 @@
 # Built application files
 *.apk
+*.aar
 *.ap_
 *.aab
 
@@ -13,7 +14,8 @@
 bin/
 gen/
 out/
-release/
+#  Uncomment the following line in case you need and you don't have the release build type files in your app
+# release/
 
 # Gradle files
 .gradle/
@@ -42,19 +44,16 @@ captures/
 .idea/assetWizardSettings.xml
 .idea/dictionaries
 .idea/libraries
-.idea/jarRepositories.xml
+# Android Studio 3 in .gitignore file.
 .idea/caches
 .idea/modules.xml
-.idea/misc.xml
-# Uncomment if you want to keep some .idea files:
-# !.idea/codeStyles/
-# !.idea/inspectionProfiles/
-# !.idea/runConfigurations/
+# Comment next line if keeping position of elements in Navigation Editor is relevant for you
+.idea/navEditor.xml
 
 # Keystore files
-# Uncomment if you have a keystore in your project
-# *.jks
-# *.keystore
+# Uncomment the following lines if you do not want to check your keystore files in.
+#*.jks
+#*.keystore
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
@@ -83,30 +82,11 @@ lint/intermediates/
 lint/generated/
 lint/outputs/
 lint/tmp/
-lint-results*.xml
+# lint/reports/
 
 # Android Profiling
 *.hprof
 
-# Kotlin
-.kotlin/
+# Secrets - IMPORTANTE: No compartir API Keys
+secrets.properties
 
-# Backup files and duplicates
-*.bak
-*.swp
-*~
-*- copia/
-*- copia (2)/
-*- copia - copia/
-.git - copia/
-.git - copia (2)/
-.git - copia - copia/
-.gradle - copia/
-
-# macOS files
-.DS_Store
-
-# Windows files
-Thumbs.db
-ehthumbs.db
-Desktop.ini
