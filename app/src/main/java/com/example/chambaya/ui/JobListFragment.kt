@@ -32,20 +32,9 @@ class JobListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerViews()
         setupButtons()
-        observeJobs()
     }
 
     private fun setupRecyclerViews() {
-        // Adapter para "Nuevos en tu zona" (horizontal)
-        newAdapter = JobsAdapter { job ->
-            viewModel.selectJob(job)
-            findNavController().navigate(R.id.jobDetailFragment)
-        }
-        binding.recyclerViewNew.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter = newAdapter
-        }
-
         // Adapter para "Cerca de ti" (vertical)
         nearbyAdapter = JobsVerticalAdapter { job ->
             viewModel.selectJob(job)
@@ -55,15 +44,29 @@ class JobListFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = nearbyAdapter
         }
+
+        newAdapter = JobsAdapter { job ->
+            viewModel.selectJob(job)
+            findNavController().navigate(R.id.jobDetailFragment)
+        }
+
+        // Observadores de LiveData
+        viewModel.nearbyJobs.observe(viewLifecycleOwner) { jobs ->
+            nearbyAdapter.submitList(jobs)
+        }
+
+        viewModel.newJobs.observe(viewLifecycleOwner) { jobs ->
+            newAdapter.submitList(jobs)
+        }
     }
 
     private fun setupButtons() {
-        // Botón flotante para ver el mapa
+        // Botón para ver el mapa
         binding.fabViewMap.setOnClickListener {
             findNavController().navigate(R.id.jobMapFragment)
         }
 
-        // Botón de publicar servicio
+        // Botón para publicar servicio
         binding.btnPublish.setOnClickListener {
             // TODO: Navegar a pantalla de publicar servicio
             // Por ahora solo mostramos un mensaje
@@ -74,15 +77,3 @@ class JobListFragment : Fragment() {
             // TODO: Navegar a pantalla de búsqueda
             // Por ahora solo mostramos un mensaje
         }
-    }
-
-    private fun observeJobs() {
-        viewModel.nearbyJobs.observe(viewLifecycleOwner) { nearbyAdapter.submitList(it) }
-        viewModel.newJobs.observe(viewLifecycleOwner) { newAdapter.submitList(it) }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-}

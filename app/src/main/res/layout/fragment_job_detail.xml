@@ -256,9 +256,9 @@
                 android:text="@string/view_map"
                 android:textSize="16sp"
                 style="@style/Widget.Material3.Button.OutlinedButton"
-                app:strokeColor="@color/chambaya_green"
-                app:iconTint="@color/chambaya_green"
-                android:textColor="@color/chambaya_green"
+                app:strokeColor="@color/chambaya_blue"
+                app:iconTint="@color/chambaya_blue"
+                android:textColor="@color/chambaya_blue"
                 app:icon="@android:drawable/ic_dialog_map"
                 app:iconGravity="textStart" />
 

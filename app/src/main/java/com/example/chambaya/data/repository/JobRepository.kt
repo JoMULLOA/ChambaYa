@@ -196,7 +196,7 @@ class JobRepository(
                     description = "Instalaciones eléctricas, reparaciones y mantención. Certificado SEC.",
                     price = "$350/h",
                     type = JobType.OFFER,
-                    providerName = "Carlos Mendoza",
+                    providerName = "Electricidad Segura",
                     latitude = -36.8250,
                     longitude = -73.0450,
                     distance = 0.6,
@@ -239,4 +239,3 @@ class JobRepository(
         jobDao.deleteAllJobs()
     }
 }
-

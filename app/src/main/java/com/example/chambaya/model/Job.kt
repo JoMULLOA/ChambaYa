@@ -46,8 +46,8 @@ data class Job(
 )
 
 enum class JobType {
-    OFFER,  // Oferta - cuando alguien ofrece un servicio
-    DEMAND  // Demanda - cuando alguien busca un servicio
+    OFFER,
+    DEMAND
 }
 
 // Type converter for Room

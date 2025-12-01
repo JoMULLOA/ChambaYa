@@ -5,15 +5,14 @@
     <color name="chambaya_blue_dark">#1E3470</color>
     <color name="chambaya_green">#8BC34A</color>
     <color name="chambaya_green_light">#A4D96C</color>
-
+    
     <!-- Colores para botones -->
     <color name="fab_blue">#2D4A9E</color>
     <color name="fab_green">#8BC34A</color>
-
+    
     <!-- Colores adicionales -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="gray_light">#F5F5F5</color>
     <color name="gray">#E0E0E0</color>
 </resources>
-

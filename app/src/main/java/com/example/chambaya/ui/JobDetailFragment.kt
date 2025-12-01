@@ -66,8 +66,6 @@ class JobDetailFragment : Fragment() {
                 }
 
                 binding.btnContact.setOnClickListener {
-                    // Aquí podrías abrir un chat o diálogo de contacto
-                    // Por ahora, simplemente mostramos un intent de teléfono
                     val intent = Intent(Intent.ACTION_DIAL)
                     intent.data = Uri.parse("tel:555-0123")
                     startActivity(intent)

@@ -24,6 +24,7 @@
         android:contentDescription="@string/view_map"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:backgroundTint="@color/chambaya_blue"
         app:tint="@android:color/white" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -35,6 +36,7 @@
         android:contentDescription="@string/my_location"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:backgroundTint="@color/chambaya_blue"
         app:tint="@android:color/white" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

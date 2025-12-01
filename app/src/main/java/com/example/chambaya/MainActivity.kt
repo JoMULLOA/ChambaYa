@@ -1,13 +1,17 @@
 package com.example.chambaya
 
 import android.os.Bundle
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.chambaya.databinding.ActivityMainBinding
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,17 +26,13 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.topAppBar)
 
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
-
         // Configurar App Bar con los fragmentos principales
-        appBarConfiguration = AppBarConfiguration(
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             setOf(R.id.jobListFragment)
-        )
 
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.jobListFragment, R.id.jobMapFragment),
+            binding.drawerLayout
         // Ocultar el título en la pantalla principal para un diseño más limpio
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
@@ -44,10 +44,6 @@ class MainActivity : AppCompatActivity() {
                     supportActionBar?.setDisplayShowTitleEnabled(true)
                 }
             }
-        }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp()
     }

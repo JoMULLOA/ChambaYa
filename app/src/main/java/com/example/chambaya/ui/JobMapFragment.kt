@@ -29,13 +29,9 @@ class JobMapFragment : Fragment() {
     private val markers = mutableListOf<Marker>()
     private lateinit var myLocationOverlay: MyLocationNewOverlay
 
-    // Coordenadas de Biobío, Chile (Concepción como referencia)
+    // Coordenadas de Conce, Chile
     private val DEFAULT_LAT = -36.8270
     private val DEFAULT_LON = -73.0497
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentJobMapBinding.inflate(inflater, container, false)
@@ -58,13 +54,12 @@ class JobMapFragment : Fragment() {
             setTileSource(TileSourceFactory.MAPNIK)
             setMultiTouchControls(true)
             controller.setZoom(14.0)
-            // Centrar en Biobío, Chile por defecto
-            controller.setCenter(GeoPoint(DEFAULT_LAT, DEFAULT_LON))
+            controller.setCenter(GeoPoint(19.4326, -99.1332))
         }
 
         myLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(context), binding.mapView)
-        myLocationOverlay.enableMyLocation()
-        binding.mapView.overlays.add(myLocationOverlay)
+            // Centrar en Biobío, Chile por defecto
+            controller.setCenter(GeoPoint(DEFAULT_LAT, DEFAULT_LON))
 
         requestLocationPermission()
     }
@@ -78,6 +73,11 @@ class JobMapFragment : Fragment() {
     }
 
     private fun observeJobs() {
+        viewModel.jobs.observe(viewLifecycleOwner) { addMarkersToMap(it) }
+        viewModel.selectedJob.observe(viewLifecycleOwner) { job -> job?.let { focusOnJob(it) } }
+    }
+
+    private fun requestLocationPermission() {
         viewModel.jobs.observe(viewLifecycleOwner) { jobs ->
             addMarkersToMap(jobs)
         }
@@ -89,20 +89,6 @@ class JobMapFragment : Fragment() {
                 saveJobLocation(it)
             }
         }
-    }
-
-    private fun requestLocationPermission() {
-        val hasPermission = ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-
-        if (hasPermission) {
-            enableMyLocation()
-        } else {
-            requestPermissions(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ),
                 LOCATION_PERMISSION_REQUEST
@@ -144,18 +130,12 @@ class JobMapFragment : Fragment() {
                     val userLocation = GeoPoint(it.latitude, it.longitude)
                     binding.mapView.controller.animateTo(userLocation)
                     binding.mapView.controller.setZoom(15.0)
-                } ?: run {
-                    // Si no hay ubicación, centrar en Biobío
-                    binding.mapView.controller.animateTo(GeoPoint(DEFAULT_LAT, DEFAULT_LON))
-                    binding.mapView.controller.setZoom(12.0)
-                    Toast.makeText(context, "Mostrando región de Biobío, Chile", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
     private fun addMarkersToMap(jobs: List<Job>) {
-        // Limpiar marcadores anteriores
         markers.forEach { binding.mapView.overlays.remove(it) }
         markers.clear()
 
@@ -163,49 +143,35 @@ class JobMapFragment : Fragment() {
             val marker = Marker(binding.mapView)
             marker.position = GeoPoint(job.latitude, job.longitude)
             marker.title = job.title
-            marker.snippet = "${job.providerName}\n${job.price}\n${job.distance} km"
-            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-
-            marker.setOnMarkerClickListener { clickedMarker, _ ->
-                viewModel.selectJob(job)
-                clickedMarker.showInfoWindow()
-                true
-            }
-
+            marker.snippet = "${job.providerName} - ${job.price}"
+                } ?: run {
+                    // Si no hay ubicación, centrar en Conce
+                    binding.mapView.controller.animateTo(GeoPoint(DEFAULT_LAT, DEFAULT_LON))
+                    binding.mapView.controller.setZoom(12.0)
+                    Toast.makeText(context, "Mostrando Concepción", Toast.LENGTH_SHORT).show()
             binding.mapView.overlays.add(marker)
             markers.add(marker)
         }
         binding.mapView.invalidate()
     }
 
-    private fun focusOnJob(job: Job) {
+        // Limpiar marcadores anteriores
         val position = GeoPoint(job.latitude, job.longitude)
         binding.mapView.controller.animateTo(position)
         binding.mapView.controller.setZoom(16.0)
-
-        // Encontrar y mostrar el info window del marcador correspondiente
-        markers.find {
-            it.position.latitude == job.latitude &&
-            it.position.longitude == job.longitude
-        }?.showInfoWindow()
+        markers.find { it.position.latitude == job.latitude && it.position.longitude == job.longitude }
+            ?.showInfoWindow()
     }
 
-    private fun saveJobLocation(job: Job) {
-        // La ubicación ya está guardada en la base de datos Room
-        // que actúa como caché local. Para sincronizar con PostgreSQL,
-        // se puede llamar al ViewModel para hacer la sincronización
-        viewModel.updateJob(job)
-    }
+            marker.snippet = "${job.providerName}\n${job.price}\n${job.distance} km"
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
 
-    override fun onResume() {
-        super.onResume()
-        binding.mapView.onResume()
     }
 
     override fun onPause() {
         super.onPause()
         binding.mapView.onPause()
-    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -217,3 +183,12 @@ class JobMapFragment : Fragment() {
     }
 }
 
+        // Encontrar y mostrar marcador correspondiente
+        markers.find {
+            it.position.latitude == job.latitude &&
+            it.position.longitude == job.longitude
+        }?.showInfoWindow()
+    }
+
+    private fun saveJobLocation(job: Job) {
+        viewModel.updateJob(job)

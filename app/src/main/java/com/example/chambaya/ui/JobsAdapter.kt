@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -36,9 +35,8 @@ class JobsAdapter(
         private val tvPrice: TextView = itemView.findViewById(R.id.tvPrice)
         private val tvType: TextView = itemView.findViewById(R.id.tvJobType)
         private val tvRating: TextView = itemView.findViewById(R.id.tvRating)
-        private val ivStar: ImageView = itemView.findViewById(R.id.ivStar)
 
-        fun bind(job: Job) {
+        private val ivStar: ImageView = itemView.findViewById(R.id.ivStar)
             tvTitle.text = job.title
             tvProvider.text = "${job.providerName} • ${job.distance} km"
             tvPrice.text = job.price
@@ -46,25 +44,22 @@ class JobsAdapter(
 
             // Cambiar color de fondo según tipo
             val typeColor = if (job.type == JobType.OFFER) {
+                0xFF2196F3.toInt() // Azul
+            } else {
                 0xFF2196F3.toInt() // Azul para ofertas
-            } else {
+            }
                 0xFF4CAF50.toInt() // Verde para demandas
-            }
-            tvType.setBackgroundColor(typeColor)
 
-            // Mostrar rating si existe
             if (job.rating != null) {
-                tvRating.text = String.format("%.1f", job.rating)
-                tvRating.visibility = View.VISIBLE
-                ivStar.visibility = View.VISIBLE
+                tvRating.text = "⭐ ${job.rating}"
+            // Mostrar rating si existe
             } else {
-                tvRating.visibility = View.GONE
-                ivStar.visibility = View.GONE
+                tvRating.text = String.format("%.1f", job.rating)
             }
-
+                ivStar.visibility = View.VISIBLE
             itemView.setOnClickListener {
                 onJobClick(job)
-            }
+                ivStar.visibility = View.GONE
         }
     }
 

@@ -13,7 +13,7 @@ import com.example.chambaya.model.Job
 import com.example.chambaya.model.JobType
 
 /**
- * Adapter para la vista vertical de trabajos (Cerca de ti)
+ * Adapter para la Cerca de ti
  */
 class JobsVerticalAdapter(
     private val onJobClick: (Job) -> Unit

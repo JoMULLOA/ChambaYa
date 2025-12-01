@@ -15,8 +15,6 @@
         android:name="com.example.chambaya.ui.JobDetailFragment"
         android:label="@string/job_details"
         tools:layout="@layout/fragment_job_detail" />
-
-    <fragment
         android:id="@+id/jobMapFragment"
         android:name="com.example.chambaya.ui.JobMapFragment"
         android:label="@string/view_map"

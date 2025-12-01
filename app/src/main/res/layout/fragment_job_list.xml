@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
-    tools:context=".ui.JobListFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
     <!-- Logo arriba de la búsqueda -->
     <ImageView
         android:id="@+id/ivLogoPrincipal"
@@ -70,9 +70,9 @@
 
     <!-- Scroll View con contenido -->
     <androidx.core.widget.NestedScrollView
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:fillViewport="true"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/searchCard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,58 +82,64 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingBottom="80dp">
 
-            <!-- Sección: Nuevos en tu zona -->
+            <!-- Sección Nuevos -->
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:text="Nuevos en tu zona"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:layout_marginBottom="12dp" />
+                android:textColor="@android:color/black" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewNew"
+                android:id="@+id/rvNewJobs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:paddingStart="12dp"
                 android:clipToPadding="false"
-                tools:listitem="@layout/item_job" />
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_job_new" />
 
-            <!-- Sección: Cerca de ti -->
+            <!-- Cerca de ti -->
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:text="@string/nearby_jobs"
+                android:text="Cerca de ti"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:layout_marginBottom="12dp" />
+                android:textColor="@android:color/black" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewNearby"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingHorizontal="16dp"
                 android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/item_job_new" />
+                tools:listitem="@layout/item_job" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Botón flotante para ver mapa -->
+    <!-- FAB Mapa -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabViewMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="24dp"
         android:src="@android:drawable/ic_dialog_map"
         android:contentDescription="@string/view_map"
-        app:backgroundTint="@color/chambaya_green"
-        app:tint="@color/white"
+        app:backgroundTint="@color/chambaya_blue"
+        app:tint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
