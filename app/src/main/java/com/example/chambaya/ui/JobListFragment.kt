@@ -61,15 +61,9 @@ class JobListFragment : Fragment() {
     }
 
     private fun setupButtons() {
-        // Botón para ver el mapa
-        binding.fabViewMap.setOnClickListener {
-            findNavController().navigate(R.id.jobMapFragment)
-        }
-
-        // Botón para publicar servicio
+        // Botón para publicar servicio (navega a la pestaña Publicar)
         binding.btnPublish.setOnClickListener {
-            // TODO: Navegar a pantalla de publicar servicio
-            // Por ahora solo mostramos un mensaje
+            findNavController().navigate(R.id.publishFragment)
         }
 
         // Barra de búsqueda
@@ -77,3 +71,11 @@ class JobListFragment : Fragment() {
             // TODO: Navegar a pantalla de búsqueda
             // Por ahora solo mostramos un mensaje
         }
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}

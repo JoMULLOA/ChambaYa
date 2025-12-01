@@ -15,9 +15,29 @@
         android:name="com.example.chambaya.ui.JobDetailFragment"
         android:label="@string/job_details"
         tools:layout="@layout/fragment_job_detail" />
+
+    <fragment
         android:id="@+id/jobMapFragment"
         android:name="com.example.chambaya.ui.JobMapFragment"
         android:label="@string/view_map"
         tools:layout="@layout/fragment_job_map" />
+
+    <fragment
+        android:id="@+id/publishFragment"
+        android:name="com.example.chambaya.ui.PublishFragment"
+        android:label="@string/publish"
+        tools:layout="@layout/fragment_publish" />
+
+    <fragment
+        android:id="@+id/messagesFragment"
+        android:name="com.example.chambaya.ui.MessagesFragment"
+        android:label="Mensajes"
+        tools:layout="@layout/fragment_messages" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.chambaya.ui.ProfileFragment"
+        android:label="Perfil"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
 
