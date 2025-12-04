@@ -11,7 +11,7 @@ interface JobDao {
     fun getAllJobs(): Flow<List<Job>>
 
     @Query("SELECT * FROM jobs WHERE id = :jobId")
-    suspend fun getJobById(jobId: String): Job?
+    suspend fun getJobById(jobId: Int): Job?
 
     @Query("SELECT * FROM jobs WHERE type = :type ORDER BY distance ASC")
     fun getJobsByType(type: String): Flow<List<Job>>

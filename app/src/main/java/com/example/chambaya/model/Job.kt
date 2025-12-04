@@ -1,5 +1,6 @@
 package com.example.chambaya.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
@@ -7,9 +8,9 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "jobs")
 data class Job(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
-    val id: String,
+    val id: Int = 0,
 
     @SerializedName("title")
     val title: String,
@@ -33,7 +34,7 @@ data class Job(
     val longitude: Double,
 
     @SerializedName("distance")
-    val distance: Double, // en km
+    val distance: Double = 0.0, // en km
 
     @SerializedName("rating")
     val rating: Double? = null,
@@ -42,7 +43,13 @@ data class Job(
     val imageUrl: String? = null,
 
     @SerializedName("category")
-    val category: String = ""
+    val category: String = "",
+
+    @ColumnInfo(name = "user_id")
+    val userId: Int = 0, // ID del usuario que creó el trabajo
+
+    @ColumnInfo(name = "created_at")
+    val createdAt: Long = System.currentTimeMillis()
 )
 
 enum class JobType {

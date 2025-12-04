@@ -49,8 +49,9 @@ class JobViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                // Insertar datos de ejemplo si la base está vacía
-                repository.insertSampleJobs()
+                // COMENTADO: Ya no insertar datos de ejemplo
+                // Los trabajos ahora solo se crean desde PublishFragment
+                // repository.insertSampleJobs()
 
                 // Intentar sincronizar con servidor
                 syncJobsFromServer()
@@ -87,7 +88,7 @@ class JobViewModel(application: Application) : AndroidViewModel(application) {
     fun createJob(job: Job) {
         viewModelScope.launch {
             _isLoading.value = true
-            val result = repository.createJob(job)
+            val result = repository.insertJob(job)
             result.onSuccess {
                 _errorMessage.value = "Trabajo creado exitosamente"
             }.onFailure { exception ->

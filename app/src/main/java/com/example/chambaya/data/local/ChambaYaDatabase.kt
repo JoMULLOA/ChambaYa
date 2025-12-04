@@ -6,17 +6,19 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.chambaya.model.Job
+import com.example.chambaya.model.User
 import com.example.chambaya.model.JobTypeConverter
 
 @Database(
-    entities = [Job::class],
-    version = 1,
+    entities = [Job::class, User::class],
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(JobTypeConverter::class)
 abstract class ChambaYaDatabase : RoomDatabase() {
 
     abstract fun jobDao(): JobDao
+    abstract fun userDao(): UserDao
 
     companion object {
         @Volatile
