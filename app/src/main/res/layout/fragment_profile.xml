@@ -118,7 +118,37 @@
                 tools:text="juan.perez@example.com"
                 android:textSize="16sp"
                 android:textColor="@color/black"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Billetera -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wallet"
+                android:textSize="12sp"
+                android:textColor="@color/chambaya_blue"
+                android:alpha="0.7" />
+
+            <TextView
+                android:id="@+id/tvUserWallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="200.000 CLP"
+                android:textSize="16sp"
+                android:textColor="@color/black"
                 android:layout_marginBottom="24dp" />
+
+            <!-- Botón Mis Contrataciones -->
+            <Button
+                android:id="@+id/btnMyHires"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="@string/my_hires"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:backgroundTint="@color/chambaya_blue"
+                app:cornerRadius="8dp"
+                android:layout_marginBottom="8dp"/>
 
             <!-- Botón Cerrar Sesión -->
             <Button
@@ -136,4 +166,3 @@
     </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

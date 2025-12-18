@@ -16,6 +16,9 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE isLoggedIn = 1 LIMIT 1")
     suspend fun getLoggedInUser(): User?
 
+    @Query("SELECT * FROM users WHERE id = :userId LIMIT 1")
+    suspend fun getUserById(userId: Int): User?
+
     @Query("SELECT * FROM users WHERE isLoggedIn = 1 LIMIT 1")
     fun getLoggedInUserFlow(): Flow<User?>
 

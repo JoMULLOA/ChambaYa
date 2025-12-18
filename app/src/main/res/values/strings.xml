@@ -10,6 +10,8 @@
     <string name="view_map">Ver mapa</string>
     <string name="job_image">Imagen del trabajo</string>
     <string name="contact">Contactar</string>
+    <string name="hire">Contratar</string>
+    <string name="my_hires">Mis Contrataciones</string>
     <string name="menu_home">Inicio</string>
     <string name="menu_map">Mapa</string>
     <string name="new_in_your_area">Nuevos en tu zona</string>
@@ -39,6 +41,7 @@
     <string name="name">Nombre</string>
     <string name="logout">Cerrar Sesión</string>
     <string name="user">Usuario</string>
+    <string name="wallet">Billetera</string>
 
     <!-- Publish -->
     <string name="publish_job">Publicar Trabajo</string>

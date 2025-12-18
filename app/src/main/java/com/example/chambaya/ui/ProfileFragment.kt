@@ -16,9 +16,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
+import com.example.chambaya.R
 import com.example.chambaya.databinding.FragmentProfileBinding
 import com.example.chambaya.viewmodel.ProfileViewModel
 import java.io.File
@@ -99,6 +101,7 @@ class ProfileFragment : Fragment() {
             user?.let {
                 binding.tvUserName.text = it.name
                 binding.tvUserEmail.text = it.email
+                binding.tvUserWallet.text = "${it.billetera} CLP"
                 binding.tvUserProfile.visibility = View.VISIBLE
 
                 // Cargar imagen de perfil
@@ -142,6 +145,10 @@ class ProfileFragment : Fragment() {
             } else {
                 showImagePickerDialog()
             }
+        }
+
+        binding.btnMyHires.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_myHiresFragment)
         }
 
         // Botón de logout

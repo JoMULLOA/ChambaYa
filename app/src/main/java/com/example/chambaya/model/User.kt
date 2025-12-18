@@ -24,6 +24,7 @@ data class User(
     val isLoggedIn: Boolean = false,
 
     @ColumnInfo(name = "profile_image")
-    val profileImage: String? = null  // Ruta de la imagen de perfil
-)
+    val profileImage: String? = null,  // Ruta de la imagen de perfil
 
+    val billetera: Int = 200000
+)

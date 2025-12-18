@@ -262,13 +262,13 @@
                 app:icon="@android:drawable/ic_dialog_map"
                 app:iconGravity="textStart" />
 
-            <!-- Botón contactar -->
+            <!-- Botón contratar -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnContact"
+                android:id="@+id/btnHire"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/contact"
+                android:text="@string/hire"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:backgroundTint="@color/chambaya_blue"

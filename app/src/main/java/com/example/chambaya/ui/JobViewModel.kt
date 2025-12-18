@@ -7,15 +7,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.chambaya.data.local.ChambaYaDatabase
+import com.example.chambaya.data.local.ContratoDao
+import com.example.chambaya.data.local.PagoDao
+import com.example.chambaya.data.local.UserDao
 import com.example.chambaya.data.remote.RetrofitClient
 import com.example.chambaya.data.repository.JobRepository
+import com.example.chambaya.model.Contrato
 import com.example.chambaya.model.Job
-import com.example.chambaya.model.JobType
+import com.example.chambaya.model.Pago
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class JobViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: JobRepository
+    private val userDao: UserDao
+    private val pagoDao: PagoDao
+    private val contratoDao: ContratoDao
 
     // LiveData from database
     val jobs: LiveData<List<Job>>
@@ -31,17 +39,22 @@ class JobViewModel(application: Application) : AndroidViewModel(application) {
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> = _errorMessage
 
+    private val _hireStatus = MutableLiveData<Result<Unit>?>()
+    val hireStatus: LiveData<Result<Unit>?> = _hireStatus
+
     init {
-        val jobDao = ChambaYaDatabase.getDatabase(application).jobDao()
+        val database = ChambaYaDatabase.getDatabase(application)
+        val jobDao = database.jobDao()
+        userDao = database.userDao()
+        pagoDao = database.pagoDao()
+        contratoDao = database.contratoDao()
         val apiService = RetrofitClient.jobApiService
         repository = JobRepository(jobDao, apiService)
 
-        // Observar flows desde la base de datos
         jobs = repository.getAllJobsFlow().asLiveData()
         nearbyJobs = repository.getNearbyJobsFlow(10).asLiveData()
         newJobs = repository.getNewJobsFlow(2).asLiveData()
 
-        // Cargar datos iniciales
         loadInitialData()
     }
 
@@ -49,14 +62,87 @@ class JobViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                // COMENTADO: Ya no insertar datos de ejemplo
-                // Los trabajos ahora solo se crean desde PublishFragment
-                // repository.insertSampleJobs()
-
-                // Intentar sincronizar con servidor
                 syncJobsFromServer()
             } catch (e: Exception) {
                 _errorMessage.value = "Error al cargar datos: ${e.message}"
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun hireJob() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val job = _selectedJob.value
+                if (job == null) {
+                    _errorMessage.value = "No se ha seleccionado ningún trabajo."
+                    _isLoading.value = false
+                    return@launch
+                }
+
+                val solicitante = userDao.getLoggedInUser()
+                if (solicitante == null) {
+                    _errorMessage.value = "Debes iniciar sesión para contratar un trabajo."
+                    _isLoading.value = false
+                    return@launch
+                }
+
+                if (solicitante.id == job.userId) {
+                    _errorMessage.value = "No puedes contratar tu propio trabajo."
+                    _isLoading.value = false
+                    return@launch
+                }
+
+                val oferente = userDao.getUserById(job.userId)
+                if (oferente == null) {
+                    _errorMessage.value = "No se encontró al proveedor del servicio."
+                    _isLoading.value = false
+                    return@launch
+                }
+
+                val priceString = job.price.filter { it.isDigit() }
+                val price = priceString.toIntOrNull()
+                if (price == null) {
+                    _errorMessage.value = "El precio del trabajo no es válido."
+                    _isLoading.value = false
+                    return@launch
+                }
+
+                if (solicitante.billetera < price) {
+                    _errorMessage.value = "No tienes fondos suficientes en tu billetera."
+                    _isLoading.value = false
+                    return@launch
+                }
+
+                val pago = Pago(
+                    montoPagado = price,
+                    fecha = Date(),
+                    metodo = "Billetera",
+                    estado = "COMPLETADO"
+                )
+                val pagoId = pagoDao.insertPago(pago)
+
+                val contrato = Contrato(
+                    jobId = job.id,
+                    oferenteId = oferente.id,
+                    solicitanteId = solicitante.id,
+                    estado = "PAGADO",
+                    pagoId = pagoId.toInt()
+                )
+                contratoDao.insertContrato(contrato)
+
+                val updatedSolicitante = solicitante.copy(billetera = solicitante.billetera - price)
+                val updatedOferente = oferente.copy(billetera = oferente.billetera + price)
+                userDao.updateUser(updatedSolicitante)
+                userDao.updateUser(updatedOferente)
+
+                _hireStatus.value = Result.success(Unit)
+
+            } catch (e: Exception) {
+                _errorMessage.value = "Error al procesar la contratación: ${e.message}"
+                _hireStatus.value = Result.failure(e)
             } finally {
                 _isLoading.value = false
             }
