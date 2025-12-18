@@ -16,7 +16,6 @@ import com.example.chambaya.model.Contrato
 import com.example.chambaya.model.Job
 import com.example.chambaya.model.Pago
 import kotlinx.coroutines.launch
-import java.util.Date
 
 class JobViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -118,7 +117,7 @@ class JobViewModel(application: Application) : AndroidViewModel(application) {
 
                 val pago = Pago(
                     montoPagado = price,
-                    fecha = Date(),
+                    fecha = System.currentTimeMillis(),
                     metodo = "Billetera",
                     estado = "COMPLETADO"
                 )
