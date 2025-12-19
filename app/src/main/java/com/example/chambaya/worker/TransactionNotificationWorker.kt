@@ -65,11 +65,11 @@ class TransactionNotificationWorker(
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_wallet) // Asegúrate de tener este icono
-            .setContentTitle("💸 Pago Realizado")
+            .setSmallIcon(R.drawable.ic_wallet)
+            .setContentTitle("Pago Realizado")
             .setContentText("Se descontaron $$amount por $serviceName")
             .setStyle(NotificationCompat.BigTextStyle()
-                .bigText("Se han descontado $$amount de tu billetera por la contratación de $serviceName"))
+                .bigText("Se han descontado $$amount de tu billetera por la contratacion de $serviceName"))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .build()
@@ -84,11 +84,11 @@ class TransactionNotificationWorker(
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_wallet) // Asegúrate de tener este icono
-            .setContentTitle("💰 Pago Recibido")
+            .setSmallIcon(R.drawable.ic_wallet)
+            .setContentTitle("Pago Recibido")
             .setContentText("Recibiste $$amount por $serviceName")
             .setStyle(NotificationCompat.BigTextStyle()
-                .bigText("¡Felicidades! $userName te ha pagado $$amount por $serviceName. El dinero ha sido agregado a tu billetera."))
+                .bigText("Felicidades! $userName te ha pagado $$amount por $serviceName. El dinero ha sido agregado a tu billetera."))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .build()

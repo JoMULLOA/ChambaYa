@@ -13,10 +13,6 @@
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/publish" />
     <item
-        android:id="@+id/messagesFragment"
-        android:icon="@android:drawable/ic_dialog_email"
-        android:title="Mensajes" />
-    <item
         android:id="@+id/profileFragment"
         android:icon="@android:drawable/ic_menu_myplaces"
         android:title="Perfil" />

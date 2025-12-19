@@ -1,247 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:padding="16dp">
 
-    <!-- Logo -->
-    <ImageView
-        android:id="@+id/ivLogoPrincipal"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:src="@drawable/logo_principal"
-        android:scaleType="fitCenter"
-        android:layout_marginTop="16dp"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <!-- ScrollView para el formulario -->
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:fillViewport="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivLogoPrincipal">
+        <TextView
+            android:id="@+id/tvTitleHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Publicar Servicio"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/chambaya_blue"
+            android:layout_marginBottom="12dp" />
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/etTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp">
+            android:hint="Título" />
 
-            <!-- Título de la sección -->
-            <TextView
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descripción"
+            android:inputType="textMultiLine"
+            android:minLines="3" />
+
+        <EditText
+            android:id="@+id/etPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Precio" />
+
+        <AutoCompleteTextView
+            android:id="@+id/actvCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Categoría" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbOffer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/publish_job"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="@color/chambaya_blue"
-                android:layout_marginBottom="24dp" />
+                android:text="Oferta"
+                android:checked="true"
+                android:buttonTint="@color/chambaya_blue" />
 
-            <!-- Card con formulario -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
+            <RadioButton
+                android:id="@+id/rbDemand"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp">
+                android:text="Demanda"
+                android:buttonTint="@color/chambaya_blue" />
+        </RadioGroup>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
+        <TextView
+            android:id="@+id/tvLocationStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ubicación no seleccionada"
+            android:layout_marginTop="8dp" />
 
-                    <!-- Título del trabajo -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilTitle"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/job_title"
-                        app:boxStrokeColor="@color/chambaya_blue"
-                        app:hintTextColor="@color/chambaya_blue">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnUseMyLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Usar mi ubicación"
+            android:backgroundTint="@color/chambaya_blue"
+            app:cornerRadius="8dp" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etTitle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:textColor="@color/black" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPublish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Publicar"
+            android:backgroundTint="@color/chambaya_blue"
+            android:layout_marginTop="12dp"
+            app:cornerRadius="8dp" />
 
-                    </com.google.android.material.textfield.TextInputLayout>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="8dp" />
 
-                    <!-- Descripción -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilDescription"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:hint="@string/job_description"
-                        app:boxStrokeColor="@color/chambaya_blue"
-                        app:hintTextColor="@color/chambaya_blue">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etDescription"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textMultiLine"
-                            android:minLines="3"
-                            android:maxLines="5"
-                            android:gravity="top"
-                            android:textColor="@color/black" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <!-- Precio -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilPrice"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:hint="@string/job_price"
-                        app:boxStrokeColor="@color/chambaya_blue"
-                        app:hintTextColor="@color/chambaya_blue"
-                        app:prefixText="S/ ">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etPrice"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
-                            android:maxLines="1"
-                            android:textColor="@color/black" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <!-- Categoría -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilCategory"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:hint="@string/job_category"
-                        app:boxStrokeColor="@color/chambaya_blue"
-                        app:hintTextColor="@color/chambaya_blue">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/actvCategory"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="none"
-                            android:textColor="@color/black" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <!-- Tipo (Oferta/Demanda) -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/job_type"
-                        android:textColor="@color/chambaya_blue"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <RadioGroup
-                        android:id="@+id/rgType"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/rbOffer"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/offer"
-                            android:checked="true"
-                            android:buttonTint="@color/chambaya_blue" />
-
-                        <RadioButton
-                            android:id="@+id/rbDemand"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/demand"
-                            android:buttonTint="@color/chambaya_blue" />
-
-                    </RadioGroup>
-
-                    <!-- Ubicación -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/location"
-                        android:textColor="@color/chambaya_blue"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/btnUseMyLocation"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/use_my_location"
-                        android:textColor="@color/white"
-                        android:backgroundTint="@color/chambaya_green"
-                        app:cornerRadius="8dp"
-                        app:icon="@android:drawable/ic_menu_mylocation"
-                        app:iconTint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/tvLocationStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Ubicación no seleccionada"
-                        android:textColor="@color/gray"
-                        android:textSize="12sp" />
-
-                    <!-- Botón Publicar -->
-                    <Button
-                        android:id="@+id/btnPublish"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:layout_marginTop="24dp"
-                        android:text="@string/publish_button"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:backgroundTint="@color/chambaya_blue"
-                        app:cornerRadius="8dp" />
-
-                    <!-- Progress Bar -->
-                    <ProgressBar
-                        android:id="@+id/progressBar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="16dp"
-                        android:indeterminateTint="@color/chambaya_blue"
-                        android:visibility="gone"
-                        tools:visibility="visible" />
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-        </LinearLayout>
-
-    </ScrollView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
+    </LinearLayout>
+</ScrollView>

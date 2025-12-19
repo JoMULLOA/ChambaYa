@@ -14,16 +14,16 @@ import com.example.chambaya.model.JobType
 import kotlinx.coroutines.launch
 
 class PublishViewModel(application: Application) : AndroidViewModel(application) {
-
+    
     private val jobRepository: JobRepository
     private val userRepository: UserRepository
-
+    
     private val _publishResult = MutableLiveData<PublishResult>()
     val publishResult: LiveData<PublishResult> = _publishResult
-
+    
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
-
+    
     init {
         val database = ChambaYaDatabase.getDatabase(application)
         val apiService = RetrofitClient.jobApiService

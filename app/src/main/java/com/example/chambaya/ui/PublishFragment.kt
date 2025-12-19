@@ -25,14 +25,14 @@ class PublishFragment : Fragment() {
 
     private var _binding: FragmentPublishBinding? = null
     private val binding get() = _binding!!
-
+    
     private val viewModel: PublishViewModel by viewModels()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-
+    
     private var currentLatitude: Double = 0.0
     private var currentLongitude: Double = 0.0
     private var locationSelected = false
-
+    
     // Launcher para solicitar permiso de ubicación
     private val locationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -59,14 +59,14 @@ class PublishFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
+        
         setupCategoryDropdown()
         setupClickListeners()
         setupObservers()
     }
-
+    
     private fun setupCategoryDropdown() {
         val categories = arrayOf(
             "Limpieza",
@@ -82,28 +82,28 @@ class PublishFragment : Fragment() {
             "Transporte",
             "Otros"
         )
-
+        
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
             categories
         )
-
+        
         binding.actvCategory.setAdapter(adapter)
     }
-
+    
     private fun setupClickListeners() {
         // Botón usar mi ubicación
         binding.btnUseMyLocation.setOnClickListener {
             requestLocationPermission()
         }
-
+        
         // Botón publicar
         binding.btnPublish.setOnClickListener {
             publishJob()
         }
     }
-
+    
     private fun setupObservers() {
         // Observar resultado de publicación
         viewModel.publishResult.observe(viewLifecycleOwner) { result ->
@@ -128,7 +128,7 @@ class PublishFragment : Fragment() {
                 }
             }
         }
-
+        
         // Observar estado de carga
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
@@ -140,7 +140,7 @@ class PublishFragment : Fragment() {
             }
         }
     }
-
+    
     private fun requestLocationPermission() {
         when {
             ContextCompat.checkSelfPermission(
@@ -154,7 +154,7 @@ class PublishFragment : Fragment() {
             }
         }
     }
-
+    
     private fun getMyLocation() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -166,7 +166,7 @@ class PublishFragment : Fragment() {
                     currentLatitude = location.latitude
                     currentLongitude = location.longitude
                     locationSelected = true
-                    binding.tvLocationStatus.text =
+                    binding.tvLocationStatus.text = 
                         "Ubicación: ${String.format("%.4f", currentLatitude)}, ${String.format("%.4f", currentLongitude)}"
                     binding.tvLocationStatus.setTextColor(
                         ContextCompat.getColor(requireContext(), R.color.chambaya_green)
@@ -181,19 +181,19 @@ class PublishFragment : Fragment() {
             }
         }
     }
-
+    
     private fun publishJob() {
         val title = binding.etTitle.text.toString().trim()
         val description = binding.etDescription.text.toString().trim()
         val price = binding.etPrice.text.toString().trim()
         val category = binding.actvCategory.text.toString().trim()
-
+        
         val type = if (binding.rbOffer.isChecked) {
             JobType.OFFER
         } else {
             JobType.DEMAND
         }
-
+        
         // Validar ubicación
         if (!locationSelected) {
             Toast.makeText(
@@ -203,7 +203,7 @@ class PublishFragment : Fragment() {
             ).show()
             return
         }
-
+        
         // Publicar trabajo
         viewModel.publishJob(
             title = title,
@@ -215,7 +215,7 @@ class PublishFragment : Fragment() {
             longitude = currentLongitude
         )
     }
-
+    
     private fun clearForm() {
         binding.etTitle.text?.clear()
         binding.etDescription.text?.clear()

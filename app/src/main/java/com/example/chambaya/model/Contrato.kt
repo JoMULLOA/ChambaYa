@@ -2,6 +2,7 @@ package com.example.chambaya.model
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
@@ -11,7 +12,8 @@ import androidx.room.PrimaryKey
         ForeignKey(entity = User::class, parentColumns = ["id"], childColumns = ["oferenteId"]),
         ForeignKey(entity = User::class, parentColumns = ["id"], childColumns = ["solicitanteId"]),
         ForeignKey(entity = Pago::class, parentColumns = ["id"], childColumns = ["pagoId"], onDelete = ForeignKey.SET_NULL)
-    ]
+    ],
+    indices = [Index(value = ["jobId"]), Index(value = ["oferenteId"]), Index(value = ["solicitanteId"]), Index(value = ["pagoId"])]
 )
 data class Contrato(
     @PrimaryKey(autoGenerate = true)

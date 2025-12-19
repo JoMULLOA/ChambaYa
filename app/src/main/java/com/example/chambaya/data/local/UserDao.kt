@@ -40,6 +40,9 @@ interface UserDao {
     @Query("SELECT COUNT(*) FROM users WHERE email = :email")
     suspend fun isEmailRegistered(email: String): Int
 
+    @Query("SELECT COUNT(*) FROM users")
+    suspend fun getUserCount(): Int
+
     @Query("UPDATE users SET profile_image = :imagePath WHERE id = :userId")
     suspend fun updateProfileImage(userId: Int, imagePath: String?)
 }

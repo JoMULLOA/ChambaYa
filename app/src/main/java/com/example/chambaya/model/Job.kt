@@ -1,6 +1,5 @@
 package com.example.chambaya.model
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
@@ -13,25 +12,25 @@ data class Job(
     val id: Int = 0,
 
     @SerializedName("title")
-    val title: String,
+    val title: String = "",
 
     @SerializedName("description")
-    val description: String,
+    val description: String = "",
 
     @SerializedName("price")
-    val price: String,
+    val price: String = "",
 
     @SerializedName("type")
-    val type: JobType, // Oferta o Demanda
+    val type: JobType = JobType.OFFER, // Oferta o Demanda
 
     @SerializedName("provider_name")
-    val providerName: String,
+    val providerName: String = "",
 
     @SerializedName("latitude")
-    val latitude: Double,
+    val latitude: Double = 0.0,
 
     @SerializedName("longitude")
-    val longitude: Double,
+    val longitude: Double = 0.0,
 
     @SerializedName("distance")
     val distance: Double = 0.0, // en km
@@ -45,11 +44,9 @@ data class Job(
     @SerializedName("category")
     val category: String = "",
 
-    @ColumnInfo(name = "user_id")
-    val userId: Int = 0, // ID del usuario que creó el trabajo
-
-    @ColumnInfo(name = "created_at")
-    val createdAt: Long = System.currentTimeMillis()
+    // ID del usuario que creó/posee el job
+    @SerializedName("user_id")
+    val userId: Int = 0
 )
 
 enum class JobType {
@@ -69,4 +66,3 @@ class JobTypeConverter {
         return JobType.valueOf(value)
     }
 }
-

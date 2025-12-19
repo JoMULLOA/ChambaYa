@@ -13,6 +13,11 @@ interface ContratoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertContrato(contrato: Contrato): Long
 
+    // Función para obtener todos los contratos de un solicitante
+    @Query("SELECT * FROM contratos WHERE solicitanteId = :userId")
+    fun getContratosBySolicitanteId(userId: Int): Flow<List<Contrato>>
+
+    // Función para obtener contratos con información del Job
     @Query("""
         SELECT 
             c.id AS contrato_id,
@@ -33,12 +38,10 @@ interface ContratoDao {
             j.rating AS job_rating,
             j.imageUrl AS job_imageUrl,
             j.category AS job_category,
-            j.user_id AS job_user_id,
-            j.created_at AS job_created_at
+            j.userId AS job_userId
         FROM contratos AS c
         INNER JOIN jobs AS j ON c.jobId = j.id
         WHERE c.solicitanteId = :userId
     """)
-    //funcion para obtener todos los contratos de un solicitante
-    fun getContratosBySolicitanteId(userId: Int): Flow<List<ContratoInfo>>
+    fun getContratosInfoBySolicitanteId(userId: Int): Flow<List<ContratoInfo>>
 }
