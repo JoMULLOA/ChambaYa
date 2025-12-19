@@ -1,11 +1,15 @@
 package com.example.chambaya.ui
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.chambaya.data.local.ChambaYaDatabase
 import com.example.chambaya.data.local.ContratoDao
 import com.example.chambaya.data.local.PagoDao
@@ -15,6 +19,7 @@ import com.example.chambaya.data.repository.JobRepository
 import com.example.chambaya.model.Contrato
 import com.example.chambaya.model.Job
 import com.example.chambaya.model.Pago
+import com.example.chambaya.worker.TransactionNotificationWorker
 import kotlinx.coroutines.launch
 
 class JobViewModel(application: Application) : AndroidViewModel(application) {
@@ -71,18 +76,23 @@ class JobViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun hireJob() {
+        Log.d("JobViewModel", "hireJob() llamado")
         viewModelScope.launch {
             _isLoading.value = true
             try {
                 val job = _selectedJob.value
+                Log.d("JobViewModel", "Job seleccionado: ${job?.title}")
                 if (job == null) {
+                    Log.e("JobViewModel", "No hay job seleccionado")
                     _errorMessage.value = "No se ha seleccionado ningún trabajo."
                     _isLoading.value = false
                     return@launch
                 }
 
                 val solicitante = userDao.getLoggedInUser()
+                Log.d("JobViewModel", "Usuario logueado: ${solicitante?.email}")
                 if (solicitante == null) {
+                    Log.e("JobViewModel", "No hay usuario logueado")
                     _errorMessage.value = "Debes iniciar sesión para contratar un trabajo."
                     _isLoading.value = false
                     return@launch
@@ -137,9 +147,27 @@ class JobViewModel(application: Application) : AndroidViewModel(application) {
                 userDao.updateUser(updatedSolicitante)
                 userDao.updateUser(updatedOferente)
 
+                // Enviar notificación al solicitante (quien paga)
+                scheduleTransactionNotification(
+                    transactionType = TransactionNotificationWorker.TYPE_DEBIT,
+                    amount = price,
+                    userName = oferente.name,
+                    serviceName = job.title
+                )
+
+                // Enviar notificación al oferente (quien recibe el pago)
+                scheduleTransactionNotification(
+                    transactionType = TransactionNotificationWorker.TYPE_CREDIT,
+                    amount = price,
+                    userName = solicitante.name,
+                    serviceName = job.title
+                )
+
+                Log.d("JobViewModel", "Contratación exitosa")
                 _hireStatus.value = Result.success(Unit)
 
             } catch (e: Exception) {
+                Log.e("JobViewModel", "Error al contratar: ${e.message}", e)
                 _errorMessage.value = "Error al procesar la contratación: ${e.message}"
                 _hireStatus.value = Result.failure(e)
             } finally {
@@ -215,5 +243,28 @@ class JobViewModel(application: Application) : AndroidViewModel(application) {
 
     fun clearError() {
         _errorMessage.value = null
+    }
+
+    /**
+     * Programa una notificación de transacción usando WorkManager
+     */
+    private fun scheduleTransactionNotification(
+        transactionType: String,
+        amount: Int,
+        userName: String,
+        serviceName: String
+    ) {
+        val inputData = Data.Builder()
+            .putString(TransactionNotificationWorker.KEY_TRANSACTION_TYPE, transactionType)
+            .putInt(TransactionNotificationWorker.KEY_AMOUNT, amount)
+            .putString(TransactionNotificationWorker.KEY_USER_NAME, userName)
+            .putString(TransactionNotificationWorker.KEY_SERVICE_NAME, serviceName)
+            .build()
+
+        val notificationWork = OneTimeWorkRequestBuilder<TransactionNotificationWorker>()
+            .setInputData(inputData)
+            .build()
+
+        WorkManager.getInstance(getApplication()).enqueue(notificationWork)
     }
 }
